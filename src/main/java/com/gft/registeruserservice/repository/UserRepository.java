@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends ListCrudRepository<User, Long>, JpaRepository<User, Long> {
+
+    User findUserByNameAndEmail(String name, String email);
 }
