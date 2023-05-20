@@ -1,14 +1,15 @@
 package com.gft.registeruserservice.service;
 
+import com.gft.registeruserservice.dto.UserDTO;
 import com.gft.registeruserservice.model.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    void createUser(User user);
+    void createUser(UserDTO userDTO);
 
-    List<User> findAllUsers();
+    List<UserDTO> findAllUsers();
 
     User findUserById(long id);
 
