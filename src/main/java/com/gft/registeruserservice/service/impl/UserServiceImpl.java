@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,23 +26,30 @@ public class UserServiceImpl implements UserService {
                  .email(userDTO.getEmail())
                  .birthDate(userDTO.getBirthDate())
                  .address(userDTO.getAddress())
-                 .habilities(userDTO.getAbilities().toString()).build();
+                 .habilities(Objects.isNull(userDTO.getAbilities()) || userDTO.getAbilities().isEmpty() ? null : userDTO.getAbilities().toString()).build();
 
         if(Objects.isNull(userRepository.findUserByNameAndEmail(userDTO.getName(), userDTO.getEmail()))){
             userRepository.save(user);
         } else {
-            throw new UserAlreadyExistsException(HttpStatus.BAD_REQUEST,"The user: " + userDTO.getName() + " already exists. Try register a new user.");
+            throw new UserAlreadyExistsException(HttpStatus.BAD_REQUEST, "The user: " + userDTO.getName() + " already exists. Try register a new user.");
         }
 
     }
 
     public List<UserDTO> findAllUsers(){
-        var user = userRepository.findAll();
+        var users = userRepository.findAll();
 
-        return UserDTO.builder()
-                .name(user.get)
+        List<UserDTO> userDTOS = new ArrayList<>();
 
-        return userRepository.findAll();
+        for(User user : users){
+            userDTOS.add(UserDTO.builder()
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .birthDate(user.getBirthDate())
+                    .abilities(Objects.nonNull(user.getHabilities()) ? Arrays.stream(user.getHabilities().substring(1, user.getHabilities().length() - 1).split(",")).toList() : null)
+                    .build());
+        }
+        return userDTOS;
     }
 
     public User findUserById(long id){

@@ -1,21 +1,23 @@
 package com.gft.registeruserservice.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
     private String name;
     private String email;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String address;
     private List<String> abilities;
