@@ -1,30 +1,19 @@
 package com.gft.registeruserservice.service;
 
 import com.gft.registeruserservice.model.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    public void createUser(User user){
+    void createUser(User user);
 
-    }
+    List<User> findAllUsers();
 
-    public List<User> findAllUsers(){
-        return null;
-    }
+    User findUserById(long id);
 
-    public User findUserById(long id){
-        return null;
-    }
+    void deleteUserById(long id);
 
-    public void deleteUserById(long id){
-    }
-
-    public void deleteAllUsers(){
-
-    }
+    void deleteAllUsers();
 
 }
