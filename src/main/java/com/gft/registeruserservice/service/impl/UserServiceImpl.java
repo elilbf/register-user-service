@@ -2,7 +2,7 @@ package com.gft.registeruserservice.service.impl;
 
 import com.gft.registeruserservice.dto.UserDTO;
 import com.gft.registeruserservice.exception.UserAlreadyExistsException;
-import com.gft.registeruserservice.model.Ability;
+import com.gft.registeruserservice.exception.UserNotFoundException;
 import com.gft.registeruserservice.model.User;
 import com.gft.registeruserservice.repository.UserRepository;
 import com.gft.registeruserservice.service.UserService;
@@ -14,8 +14,6 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    private final static String DELIMITER = "'|";
 
     @Autowired
     private UserRepository userRepository;
@@ -31,29 +29,27 @@ public class UserServiceImpl implements UserService {
         if(Objects.isNull(userRepository.findUserByNameAndEmail(userDTO.getName(), userDTO.getEmail()))){
             userRepository.save(user);
         } else {
-            throw new UserAlreadyExistsException(HttpStatus.BAD_REQUEST, "The user: " + user.getName() + " already exists. Try register a new user.");
+            throw new UserAlreadyExistsException(HttpStatus.BAD_REQUEST,
+                    "The user: " + user.getName() + " already exists. Try register a new user.");
         }
-
     }
 
     public List<UserDTO> findAllUsers(){
-        return userRepository.findAll().stream().map(u -> UserDTO.builder()
-                .name(u.getName())
-                .email(u.getEmail())
-                .birthDate(u.getBirthDate())
-                .abilities(u.getAbilities().stream().map(Ability::getDescription).toList())
-                .build()
-        ).toList();
+        return userRepository.findAll().stream().map(UserDTO::parseUser).toList();
     }
 
-    public User findUserById(long id){
-        return null;
+    public UserDTO findUserById(Long id){
+        var user = userRepository.findById(id);
+
+        if(user.isPresent()){
+            return UserDTO.parseUser(user.get());
+        }
+
+        throw new UserNotFoundException(HttpStatus.NOT_FOUND, "User with ID: " + id + " not found!");
     }
 
-    public void deleteUserById(long id){
+    public void deleteUserById(Long id){
+            userRepository.deleteById(id);
     }
 
-    public void deleteAllUsers(){
-        userRepository.deleteAll();
-    }
 }

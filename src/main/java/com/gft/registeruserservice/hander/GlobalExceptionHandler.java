@@ -1,6 +1,7 @@
 package com.gft.registeruserservice.hander;
 
 import com.gft.registeruserservice.exception.UserAlreadyExistsException;
+import com.gft.registeruserservice.exception.UserNotFoundException;
 import com.gft.registeruserservice.model.ErrorCustomModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +16,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorCustomModel userAlreadyExistsException(UserAlreadyExistsException ex) {
+        return ErrorCustomModel.builder()
+                .message(ex.getBody().getDetail())
+                .build();
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorCustomModel userNotFoundException(UserNotFoundException ex) {
         return ErrorCustomModel.builder()
                 .message(ex.getBody().getDetail())
                 .build();

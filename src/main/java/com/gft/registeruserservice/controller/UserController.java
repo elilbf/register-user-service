@@ -1,8 +1,6 @@
 package com.gft.registeruserservice.controller;
 
 import com.gft.registeruserservice.dto.UserDTO;
-import com.gft.registeruserservice.exception.UserAlreadyExistsException;
-import com.gft.registeruserservice.model.User;
 import com.gft.registeruserservice.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,20 +30,14 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<User> findUserById(@PathVariable("userId") long userId){
-//        return new ResponseEntity<>(userService.findUserById(), HttpStatus.OK);
-        return null;
+    public ResponseEntity<UserDTO> findUserById(@PathVariable("userId") Long userId){
+        return new ResponseEntity<>(userService.findUserById(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity deleteUserById(@PathVariable("userId") long userId){
-        return null;
-    }
-
-    @DeleteMapping("/users")
-    public ResponseEntity deleteAllUsers(){
-        userService.deleteAllUsers();
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteUserById(@PathVariable("userId") long userId){
+        userService.deleteUserById(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
