@@ -1,6 +1,7 @@
 package com.gft.registeruserservice.controller;
 
 import com.gft.registeruserservice.dto.UserDTO;
+import com.gft.registeruserservice.exception.UserAlreadyExistsException;
 import com.gft.registeruserservice.model.User;
 import com.gft.registeruserservice.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,29 +20,29 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/user")
-    public ResponseEntity<HttpStatus> createUser(@RequestBody UserDTO userDTO){
+    @PostMapping("/users")
+    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO){
         userService.createUser(userDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/findAllUsers")
+    @GetMapping("/users/findAllUsers")
     public ResponseEntity<List<UserDTO>> findAllUsers(){
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<User> findUserById(@PathVariable("userId") long userId){
 //        return new ResponseEntity<>(userService.findUserById(), HttpStatus.OK);
         return null;
     }
 
-    @DeleteMapping("/user/{userId}")
+    @DeleteMapping("/users/{userId}")
     public ResponseEntity deleteUserById(@PathVariable("userId") long userId){
         return null;
     }
 
-    @DeleteMapping("/user")
+    @DeleteMapping("/users")
     public ResponseEntity deleteAllUsers(){
         userService.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.OK);

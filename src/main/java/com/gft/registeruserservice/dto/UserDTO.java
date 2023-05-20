@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,6 @@ public class UserDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String address;
-    private List<String> abilities;
+    private List<String> abilities = new ArrayList<>();
 
 }
