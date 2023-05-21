@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidFieldException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ErrorCustomModel invalidFieldException (InvalidFieldException ex){
+    public ErrorCustomModel invalidFieldException(InvalidFieldException ex) {
         return ErrorCustomModel.builder()
                 .message(ex.getBody().getDetail())
                 .build();

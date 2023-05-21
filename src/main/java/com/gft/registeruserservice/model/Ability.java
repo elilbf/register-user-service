@@ -17,7 +17,6 @@ public class Ability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAbility;
-
     private String description;
 
 }

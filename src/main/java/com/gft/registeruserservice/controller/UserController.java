@@ -20,23 +20,23 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/users")
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO userDTO){
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO userDTO) {
         userService.createUser(userDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/users/findAllUsers")
-    public ResponseEntity<List<UserDTO>> findAllUsers(){
+    public ResponseEntity<List<UserDTO>> findAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<UserDTO> findUserById(@PathVariable("userId") Long userId){
+    public ResponseEntity<UserDTO> findUserById(@PathVariable("userId") Long userId) {
         return new ResponseEntity<>(userService.findUserById(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable("userId") long userId){
+    public ResponseEntity<Void> deleteUserById(@PathVariable("userId") long userId) {
         userService.deleteUserById(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

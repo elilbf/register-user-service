@@ -1,11 +1,12 @@
 package com.gft.registeruserservice.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,13 +22,12 @@ public class User {
     private Long userId;
     private String name;
     private String email;
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
     private String address;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Ability> abilities;
 
-    public static List<Ability> parseAbilities(List<String> abilities){
+    public static List<Ability> parseAbilities(List<String> abilities) {
         return abilities.stream().map(e -> Ability.builder()
                                             .description(e)
                                             .build())

@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,17 +20,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void createUser(UserDTO userDTO){
+    public void createUser(UserDTO userDTO) {
         UserUtil.validatePayloadFields(userDTO);
 
-         var user = User.builder()
-                 .name(userDTO.getName())
-                 .email(userDTO.getEmail())
-                 .birthDate(userDTO.getBirthDate())
-                 .address(userDTO.getAddress())
-                 .abilities(User.parseAbilities(userDTO.getAbilities())).build();
+        var user = User.builder()
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .birthDate(userDTO.getBirthDate())
+                .address(userDTO.getAddress())
+                .abilities(User.parseAbilities(userDTO.getAbilities())).build();
 
-        if(Objects.isNull(userRepository.findUserByNameAndEmail(userDTO.getName(), userDTO.getEmail()))){
+        if (Objects.isNull(userRepository.findUserByNameAndEmail(userDTO.getName(), userDTO.getEmail()))) {
             userRepository.save(user);
         } else {
             throw new UserAlreadyExistsException(HttpStatus.BAD_REQUEST,
@@ -37,22 +38,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public List<UserDTO> findAllUsers(){
+    public List<UserDTO> findAllUsers() {
         return userRepository.findAll().stream().map(UserDTO::parseUser).toList();
     }
 
-    public UserDTO findUserById(Long id){
+    public UserDTO findUserById(Long id) {
         var user = userRepository.findById(id);
 
-        if(user.isPresent()){
+        if (user.isPresent()) {
             return UserDTO.parseUser(user.get());
         }
 
         throw new UserNotFoundException(HttpStatus.NOT_FOUND, "User with ID: " + id + " not found!");
     }
 
-    public void deleteUserById(Long id){
-            userRepository.deleteById(id);
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
     }
 
 }

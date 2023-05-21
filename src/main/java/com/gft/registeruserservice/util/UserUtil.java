@@ -44,7 +44,7 @@ public class UserUtil {
 //                throw new InvalidFieldException(HttpStatus.BAD_REQUEST,
 //                        "To register, you must be over 18 years old.");
 //            }
-        }
+//        }
 //    }
 
 }
