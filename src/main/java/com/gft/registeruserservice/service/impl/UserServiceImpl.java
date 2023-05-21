@@ -6,6 +6,7 @@ import com.gft.registeruserservice.exception.UserNotFoundException;
 import com.gft.registeruserservice.model.User;
 import com.gft.registeruserservice.repository.UserRepository;
 import com.gft.registeruserservice.service.UserService;
+import com.gft.registeruserservice.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     public void createUser(UserDTO userDTO){
+        UserUtil.validatePayloadFields(userDTO);
+
          var user = User.builder()
                  .name(userDTO.getName())
                  .email(userDTO.getEmail())

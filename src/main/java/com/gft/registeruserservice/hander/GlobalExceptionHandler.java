@@ -1,5 +1,6 @@
 package com.gft.registeruserservice.hander;
 
+import com.gft.registeruserservice.exception.InvalidFieldException;
 import com.gft.registeruserservice.exception.UserAlreadyExistsException;
 import com.gft.registeruserservice.exception.UserNotFoundException;
 import com.gft.registeruserservice.model.ErrorCustomModel;
@@ -29,5 +30,15 @@ public class GlobalExceptionHandler {
                 .message(ex.getBody().getDetail())
                 .build();
     }
+
+    @ExceptionHandler(InvalidFieldException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorCustomModel invalidFieldException (InvalidFieldException ex){
+        return ErrorCustomModel.builder()
+                .message(ex.getBody().getDetail())
+                .build();
+    }
+
 
 }
