@@ -1,5 +1,6 @@
 package com.gft.registeruserservice.model;
 
+import com.gft.registeruserservice.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,17 @@ public class User {
                                             .description(e)
                                             .build())
                                             .toList();
+    }
+
+    public static User parseUser(UserDTO userDTO){
+        return User.builder()
+                .userId(userDTO.getId())
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .birthDate(userDTO.getBirthDate())
+                .address(userDTO.getAddress())
+                .abilities(parseAbilities(userDTO.getAbilities()))
+                .build();
     }
 
 }

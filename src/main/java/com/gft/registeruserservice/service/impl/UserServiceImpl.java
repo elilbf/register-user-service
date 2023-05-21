@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -48,9 +47,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Long id, UserDTO userDTO) {
+        UserUtil.validatePayloadFields(userDTO);
+        validateDomainEmail(userDTO);
         findUserIfExistsById(id);
 
-
+        userDTO.setId(id);
+        userRepository.save(User.parseUser(userDTO));
     }
 
     public List<UserDTO> findAllUsers() {
@@ -58,11 +60,17 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDTO findUserIfExistsById(Long id) {
-        return UserDTO.parseUser(findUserById(id).get());
+        return UserDTO.parseUser(findUserById(id));
     }
 
-    private Optional<User> findUserById(Long id) {
-        return Optional.of(userRepository.findById(id)).orElseThrow(() -> new UserNotFoundException(HttpStatus.NOT_FOUND, "User with ID: " + id + " not found!"));
+    private User findUserById(Long id) {
+        var user = userRepository.findById(id);
+
+        if (user.isPresent()) {
+            return user.get();
+        }
+
+        throw new UserNotFoundException(HttpStatus.NOT_FOUND, "User with ID: " + id + " not found!");
     }
 
     public void deleteUserById(Long id) {

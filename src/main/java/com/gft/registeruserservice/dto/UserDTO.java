@@ -18,6 +18,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
+    private Long id;
     private String name;
     private String email;
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -27,9 +28,11 @@ public class UserDTO {
 
     public static UserDTO parseUser(User user) {
         return UserDTO.builder()
+                .id(user.getUserId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .birthDate(user.getBirthDate())
+                .address(user.getAddress())
                 .abilities(user.getAbilities().stream().map(Ability::getDescription).toList())
                 .build();
     }
