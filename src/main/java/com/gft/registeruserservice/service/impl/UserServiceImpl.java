@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,18 +46,23 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public void updateUser(Long id, UserDTO userDTO) {
+        findUserIfExistsById(id);
+
+
+    }
+
     public List<UserDTO> findAllUsers() {
         return userRepository.findAll().stream().map(UserDTO::parseUser).toList();
     }
 
-    public UserDTO findUserById(Long id) {
-        var user = userRepository.findById(id);
+    public UserDTO findUserIfExistsById(Long id) {
+        return UserDTO.parseUser(findUserById(id).get());
+    }
 
-        if (user.isPresent()) {
-            return UserDTO.parseUser(user.get());
-        }
-
-        throw new UserNotFoundException(HttpStatus.NOT_FOUND, "User with ID: " + id + " not found!");
+    private Optional<User> findUserById(Long id) {
+        return Optional.of(userRepository.findById(id)).orElseThrow(() -> new UserNotFoundException(HttpStatus.NOT_FOUND, "User with ID: " + id + " not found!"));
     }
 
     public void deleteUserById(Long id) {
@@ -63,7 +70,17 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validateDomainEmail(UserDTO userDTO) {
-        if (!emailDomainProperty.getDomains().contains(userDTO.getEmail())) {
+        boolean isValidDomain = false;
+
+        for (String domain : emailDomainProperty.getDomains()) {
+            Pattern patternDomain = Pattern.compile("@" + domain + "$");
+            isValidDomain = patternDomain.matcher(userDTO.getEmail()).find();
+            if (isValidDomain) {
+                break;
+            }
+        }
+
+        if (!isValidDomain) {
             throw new InvalidFieldException(HttpStatus.BAD_REQUEST, "Your email domain is not valid.");
         }
     }

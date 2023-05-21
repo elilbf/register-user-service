@@ -8,9 +8,11 @@ public interface UserService {
 
     void createUser(UserDTO userDTO);
 
+    void updateUser(Long id, UserDTO userDTO);
+
     List<UserDTO> findAllUsers();
 
-    UserDTO findUserById(Long id);
+    UserDTO findUserIfExistsById(Long id);
 
     void deleteUserById(Long id);
 

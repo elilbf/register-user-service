@@ -25,6 +25,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<String> updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable("userId") Long userId){
+        userService.updateUser(userId, userDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/users/findAllUsers")
     public ResponseEntity<List<UserDTO>> findAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
@@ -32,7 +38,7 @@ public class UserController {
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<UserDTO> findUserById(@PathVariable("userId") Long userId) {
-        return new ResponseEntity<>(userService.findUserById(userId), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findUserIfExistsById(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}")
