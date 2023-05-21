@@ -2,21 +2,22 @@ package com.gft.registeruserservice.util;
 
 import com.gft.registeruserservice.dto.UserDTO;
 import com.gft.registeruserservice.exception.InvalidFieldException;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 
-import java.time.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 public class UserUtil {
 
-    private static final String VALID_EMAIL_REGEX = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    //    private static final String VALID_EMAIL_REGEX = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    private static final String VALID_EMAIL_REGEX = "'[a-z0-9]+@[a-z]+\\.[a-z]{2,3}'";
+    private static int MIN_AGE = 18;
 
     public static void validatePayloadFields(UserDTO userDTO) {
-//        nameValidate(userDTO.getName());
+        nameValidate(userDTO.getName());
         emailValidate(userDTO.getEmail());
-//        ageOlderValidate(userDTO.getBirthDate());
+        ageOlderValidate(userDTO.getBirthDate());
 
     }
 
@@ -34,17 +35,11 @@ public class UserUtil {
         }
     }
 
-//    private static void ageOlderValidate(LocalDate birthDate) {
-//        if (Objects.nonNull(birthDate)) {
-//            Duration.between(birthDate, LocalDateTime.now());
-//            var localBirthDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//            var age = Period.between(localBirthDate, LocalDate.now(ZoneId.systemDefault())).getYears();
-
-//            if (age < 18) {
-//                throw new InvalidFieldException(HttpStatus.BAD_REQUEST,
-//                        "To register, you must be over 18 years old.");
-//            }
-//        }
-//    }
+    private static void ageOlderValidate(LocalDate birthDate) {
+        if (Objects.nonNull(birthDate) && Period.between(birthDate, LocalDate.now()).getYears() < MIN_AGE) {
+            throw new InvalidFieldException(HttpStatus.BAD_REQUEST,
+                    "To register, you must be over 18 years old.");
+        }
+    }
 
 }
