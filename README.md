@@ -20,10 +20,10 @@ http://localhost:8080/h2-console/
 Requests to the API must follow:
 | Method | Description |
 |---|---|
-| `GET` | Return one or more users. |
-| `POST` | Create a new user. |
-| `PUT` | Update a user. |
-| `DELETE` | Delete a user. |
+| `GET` | Return one or more users |
+| `POST` | Create a new user |
+| `PUT` | Update a user |
+| `DELETE` | Delete a user |
 
 
 ## Responses
