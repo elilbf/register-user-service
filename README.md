@@ -77,7 +77,7 @@ Get all users from H2 DataBase.
     + Body
   
           {
-          "id": 1
+          "id": 1,
           "name": "Julio Osvaldo Nathan Martins",
           "email": "julio-martins88@gmail.com",
           "birthDate": "25/02/1961",
@@ -93,7 +93,7 @@ Get an user by id.
     + Body
 
           {
-          "id": 1
+          "id": 1,
           "name": "Julio Osvaldo Nathan Martins",
           "email": "julio-martins88@gmail.com",
           "birthDate": "25/02/1961",
