@@ -79,7 +79,7 @@ public class UserUtil {
 
         if (constainsSymbols || containsNumber) {
             throw new InvalidFieldException(HttpStatus.BAD_REQUEST,
-                    "The field '" + fieldName + "' was not correctly infomed. Please do not use special characters.");
+                    "The field '" + fieldName + "' was not correctly informed. Please do not use special characters.");
         }
     }
 
