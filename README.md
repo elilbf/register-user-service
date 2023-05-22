@@ -35,7 +35,7 @@ Requests to the API must follow:
 | `400` | Record contains invalid data  |
 | `404` | Searched record not found     |
 
-## Funcionalities
+## Functionalities
 
 ## Create User - POST [/users]
 Create a new user.
