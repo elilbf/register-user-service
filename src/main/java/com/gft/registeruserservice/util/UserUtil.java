@@ -29,6 +29,11 @@ public class UserUtil {
     }
 
     private static void nameValidate(String name) {
+        if(Objects.isNull(name) || name.isBlank()){
+            throw new InvalidFieldException(HttpStatus.BAD_REQUEST,
+                    "To register an user you must to fill in the 'name' field.");
+        }
+
         validateField(name, true, true, FIELD_NAME);
     }
 
@@ -37,7 +42,10 @@ public class UserUtil {
     }
 
     private static void emailValidate(String email) {
-        if (!email.matches(VALID_EMAIL_REGEX)) {
+        if(Objects.isNull(email) || email.isBlank()){
+            throw new InvalidFieldException(HttpStatus.BAD_REQUEST,
+                    "To register an user you must to fill in the 'email' field.");
+        } else if(!email.matches(VALID_EMAIL_REGEX)){
             throw new InvalidFieldException(HttpStatus.BAD_REQUEST,
                     "The field 'email' was not correctly informed.");
         }
@@ -74,4 +82,5 @@ public class UserUtil {
                     "The field '" + fieldName + "' was not correctly infomed. Please do not use special characters.");
         }
     }
+
 }
