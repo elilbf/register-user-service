@@ -27,16 +27,17 @@ Requests to the API must follow:
 
 
 ## Responses
-| Code  | Description                                                                          |
-|-------|--------------------------------------------------------------------------------------|
-| `200` | Request executed successfully                                                        |
-| `201` | Record created                                                                       |
-| `400` | Record contains invalid data                                                         |
-| `404` | Searched record not found                                                            |
+| Code  | Description                   |
+|-------|-------------------------------|
+| `200` | Request executed successfully |
+| `201` | Record created                |
+| `204` | Record deleted successfully   |
+| `400` | Record contains invalid data  |
+| `404` | Searched record not found     |
 
 ## Funcionalities
 
-## Create User [/user]
+## Create User - POST [/users]
 Create a new user.
 + Request (application/json)
   + Body
@@ -50,3 +51,56 @@ Create a new user.
           }
 
 + Response 201 (CREATED)
+
+## Update User - PUT [/users/{userId}]
+Update an user by payload and id.
++ Request
+  + Path Param
+      UserId: ID of Entity to be changed.
+
+  + Body
+
+             {
+               "name": "Fábio Márcio Carlos Melo",
+               "email": "fabiomarciomelo@yahoo.com.br",
+               "birthDate": "20/01/1952",
+               "address": "Rua Tonico Saad",
+               "abilities": ["Front-End Developer", "Back-End Developer", "Play Guitar"]
+             }
+
++ Response 200 (OK)
+
+## Find All Users - GET [/users/findAllUsers]
+Get all users from H2 DataBase.
+
++ Response 200 (application/json)
+    + Body
+  
+          {
+          "name": "Julio Osvaldo Nathan Martins",
+          "email": "julio-martins88@gmail.com",
+          "birthDate": "25/02/1961",
+          "address": "Rua Jairzinho 223",
+          "abilities": ["Front-End Developer", "Back-End Developer", "Play Guitar"]
+          } 
+## Find User by ID - GET [/users/{userId}]
+Get an user by id.
++ Request
+    + Path Param
+      UserId: ID of user to find.
++ Response 200 (application/json)
+    + Body
+
+          {
+          "name": "Julio Osvaldo Nathan Martins",
+          "email": "julio-martins88@gmail.com",
+          "birthDate": "25/02/1961",
+          "address": "Rua Jairzinho 223",
+          "abilities": ["Front-End Developer", "Back-End Developer", "Play Guitar"]
+          } 
+## Delete User by ID - DELETE [/users/{userId}]
+Delete an user by id.
++ Request
+    + Path Param
+      UserId: ID of user to delete.
++ Response 204 (NO_CONTENT)
