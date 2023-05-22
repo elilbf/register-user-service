@@ -14,7 +14,7 @@ http://localhost:8080/h2-console/
 - SpringBoot 3
 - Swagger 3
 - Mockito
-- JUnit
+- JUnit 5
 
 ## Methods
 Requests to the API must follow:
@@ -77,6 +77,7 @@ Get all users from H2 DataBase.
     + Body
   
           {
+          "id": 1
           "name": "Julio Osvaldo Nathan Martins",
           "email": "julio-martins88@gmail.com",
           "birthDate": "25/02/1961",
@@ -92,6 +93,7 @@ Get an user by id.
     + Body
 
           {
+          "id": 1
           "name": "Julio Osvaldo Nathan Martins",
           "email": "julio-martins88@gmail.com",
           "birthDate": "25/02/1961",
