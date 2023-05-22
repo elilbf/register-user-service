@@ -1,3 +1,4 @@
+# register-user-service API
 # Challenge: Create a SpringBoot API to register users
 
 ## About
@@ -16,22 +17,15 @@ http://localhost:8080/h2-console/
 - Mockito
 - JUnit
 
+## Methods
+Requisições para a API devem seguir os padrões:
+| Método | Descrição |
+|---|---|
+| `GET` | Return one or more users. |
+| `POST` | Create a new user. |
+| `PUT` | Update a user. |
+| `DELETE` | Delete a user. |
+
 ## Funcionalities
 
 ## Create a new User
-
-`POST /user`
-
-curl --location 'localhost:8080/user-register-service/api/users' \
---header 'Content-Type: application/json' \
---data-raw '{
-"name": "Eli Leite de Brito Filho",
-"email": "elileite9@gmail.com",
-"birthDate": "22/07/1994",
-"address": "Rua Barão de São Francisco 186",
-"abilities": ["A", "B", "C"]
-
-}'
-
-### Response
-HTTP/1.1 201 Created
