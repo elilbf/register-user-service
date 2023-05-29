@@ -30,18 +30,11 @@ public class UserServiceImpl implements UserService {
         UserUtil.validatePayloadFields(userDTO);
         validateDomainEmail(userDTO);
 
-        var user = User.builder()
-                .name(userDTO.getName())
-                .email(userDTO.getEmail())
-                .birthDate(userDTO.getBirthDate())
-                .address(userDTO.getAddress())
-                .abilities(User.parseAbilities(userDTO.getAbilities())).build();
-
         if (Objects.isNull(userRepository.findUserByNameAndEmail(userDTO.getName(), userDTO.getEmail()))) {
-            userRepository.save(user);
+            userRepository.save(User.parseUser(userDTO));
         } else {
             throw new UserAlreadyExistsException(HttpStatus.BAD_REQUEST,
-                    "The user: " + user.getName() + " already exists. Try register a new user.");
+                    "The user: " + userDTO.getName() + " already exists. Try register a new user.");
         }
     }
 
